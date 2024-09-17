@@ -1,0 +1,43 @@
+server:
+  port: 8085
+
+spring:
+  profiles:
+    active: local
+    include: console-logging, file-logging
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate.default_batch_fetch_size: 1000
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _history
+            revision_field_name: revision_id
+            revision_type_field_name: revision_type
+          format_sql: true
+          show-sql: true
+  main:
+    allow-circular-references: true
+  batch:
+    jdbc.initialize-schema: always
+
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
+    doc-expansion: none
+    default-model-expand-depth: -1
+    display-request-duration: true
+  paths-to-match: /v1/**
+  use-fqn: true
+  enable-data-rest: false
+
+logging:
+  level:
+    org.hibernate.sql: DEBUG
+    org.hibernate.type.descriptor.sql: DEBUG
+    org.hibernate.orm.jdbc.bind: DEBUG
+  logback:
+    rollingpolicy:
+      max-history: 30
